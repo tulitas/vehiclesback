@@ -1,7 +1,6 @@
 package back.controllers;
 
 import back.exception.ResourcesNotFoundException;
-import back.models.MLoan;
 import back.models.MLoanRepaymentSchedule;
 import back.repositories.MLoanRepaymentSheduleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
