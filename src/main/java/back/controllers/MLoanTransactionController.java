@@ -19,7 +19,7 @@ import java.util.Map;
 public class MLoanTransactionController {
     @Autowired
     MLoanTransactionRepository mLoanTransactionRepository;
-
+    MLoanTransaction mLoanTransaction = new MLoanTransaction();
     @GetMapping("/transaction")
     public List<MLoanTransaction> getAllMLoanTransaction() {
         return mLoanTransactionRepository.findAll();

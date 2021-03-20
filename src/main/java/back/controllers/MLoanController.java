@@ -4,6 +4,7 @@ import back.models.MLoan;
 import back.repositories.MLoanRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import back.exception.ResourcesNotFoundException;
 
@@ -17,11 +18,12 @@ import java.util.Map;
 @RequestMapping("/api")
 public class MLoanController {
     @Autowired MLoanRepository mLoanRepository;
-
+    MLoan mLoan = new MLoan();
     @GetMapping("/mloan")
     public List<MLoan> getAllMLoan() {
         return mLoanRepository.findAll();
     }
+
 
     @GetMapping("/mloan/{id}")
     public ResponseEntity<MLoan> getMLoanById(@PathVariable(value = "id") Long mLoanId)
@@ -32,8 +34,11 @@ public class MLoanController {
     }
 
     @PostMapping("/mloan")
-    public MLoan createMLoan(@Valid @RequestBody MLoan mLoan) {
-        return mLoanRepository.save(mLoan);
+    public MLoan createMLoan(@Valid @RequestBody MLoan mLoan, Model model) {
+
+        int set = mLoanRepository.getLastId() + 1;
+        mLoan.setAccount_no(String.valueOf(set));
+          return mLoanRepository.save(mLoan);
     }
 
     @PutMapping("/mloan/{id}")
