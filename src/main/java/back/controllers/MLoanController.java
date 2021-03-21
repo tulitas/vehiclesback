@@ -4,6 +4,7 @@ import back.models.MLoan;
 import back.repositories.MLoanRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import back.exception.ResourcesNotFoundException;
 
@@ -67,10 +68,7 @@ public class MLoanController {
     }
 
     @GetMapping("/reports")
-    public Map<String, String> getReport() {
-        Map<String, String> result = new HashMap<>();
-        result.put("result", mLoanRepository.getUnits());
-        System.out.println(mLoanRepository.getUnits());
-        return result;
+    public List getReport() {
+        return mLoanRepository.getUnits();
     }
 }
