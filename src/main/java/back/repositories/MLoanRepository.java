@@ -13,4 +13,6 @@ public interface MLoanRepository extends JpaRepository<MLoan, Long> {
     @Query(value = "select MAX(account_no) from m_loan ", nativeQuery = true)
     Integer getLastId();
 
+    @Query(value = "SELECT * FROM m_loan_transaction where amount > 999", nativeQuery = true)
+    String getUnits();
 }

@@ -4,7 +4,6 @@ import back.models.MLoan;
 import back.repositories.MLoanRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import back.exception.ResourcesNotFoundException;
 
@@ -17,8 +16,10 @@ import java.util.Map;
 @CrossOrigin(origins = "http://localhost:4200")
 @RequestMapping("/api")
 public class MLoanController {
-    @Autowired MLoanRepository mLoanRepository;
+    @Autowired
+    MLoanRepository mLoanRepository;
     MLoan mLoan = new MLoan();
+
     @GetMapping("/mloan")
     public List<MLoan> getAllMLoan() {
         return mLoanRepository.findAll();
@@ -34,16 +35,16 @@ public class MLoanController {
     }
 
     @PostMapping("/mloan")
-    public MLoan createMLoan(@Valid @RequestBody MLoan mLoan, Model model) {
+    public MLoan createMLoan(@Valid @RequestBody MLoan mLoan) {
 
         int set = mLoanRepository.getLastId() + 1;
         mLoan.setAccount_no(String.valueOf(set));
-          return mLoanRepository.save(mLoan);
+        return mLoanRepository.save(mLoan);
     }
 
     @PutMapping("/mloan/{id}")
     public ResponseEntity<MLoan> updateMLoan(@PathVariable(value = "id") Long mLoanId,
-                                                   @Valid @RequestBody MLoan mLoanDetails) throws ResourcesNotFoundException {
+                                             @Valid @RequestBody MLoan mLoanDetails) throws ResourcesNotFoundException {
         MLoan mLoan = mLoanRepository.findById(mLoanId)
                 .orElseThrow(() -> new ResourcesNotFoundException("Employee not found for this id :: " + mLoanId));
 
@@ -63,5 +64,13 @@ public class MLoanController {
         Map<String, Boolean> response = new HashMap<>();
         response.put("deleted", Boolean.TRUE);
         return response;
+    }
+
+    @GetMapping("/reports")
+    public Map<String, String> getReport() {
+        Map<String, String> result = new HashMap<>();
+        result.put("result", mLoanRepository.getUnits());
+        System.out.println(mLoanRepository.getUnits());
+        return result;
     }
 }
